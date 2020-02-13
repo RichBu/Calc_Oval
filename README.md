@@ -1,4 +1,4 @@
-# Oval_Calc
+# Calc_Oval
 Demonstration of how to use an API with a backend to do calculations.
 
 Unless you have access to the backend, the user will never know how 

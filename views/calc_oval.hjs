@@ -2,7 +2,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<title>Oval Calculator</title>
+		<title>WCO NC21 Video List</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
 		<!--  Designed by Rich Budek @  www.RichBudek.com -->
@@ -63,7 +63,6 @@
 							<input type="text" name="_loginName" id='_loginName' class="" placeholder="login">	
 							<input type="password" name="_password" id='_password' class="" placeholder="password">
 							<input type="submit" class="login-submit btn btn-primary loginButton" value="Login">
-							<input id="noLoginBttn" type="" class="login-submit btn btn-primary loginButton" value="No Login">
 						</form>
 					</div>
 				</div>
@@ -84,13 +83,13 @@
 				<h3>Website Information</h3>
 				<div class="divider"></div>
 				<h4>
-					<br/>This is a website demonstrating the use of a backend API when doing calculations.
+					<br/>When machining a circular cutout on a round 
+					<br/>cylinder even though the machine calculates
+					<br/>the proper A axis rotation for the Y co-
+					<br/>coordinates, still the cylinder cut comes
+					<br/>out as an oval.  This calculator does the
+					<br/>calculations for you using a Node JS backend.
 					<br/>
-					<br/> The enduser can not see how the calculations were performed.  There is a login sequence that uses the backend also and exposes more information.
-					<br/>
-					<br/> If you do not have the login then you will not be able to view the other calculations.
-					<br/>
-					<br/> Rich Budek  rb@RichBudek.com
 					<br/>
 				</h4>
 				<div style="padding: 20px 0px 10px 0px;"  class="divider">
@@ -124,7 +123,6 @@
 
 		  $('#btn-about').on('click', function (event) {
 			  event.preventDefault();
-			  console.log("detected btn-about");
 			  var modAbout = $("#modal-about");
 			  $(modAbout).css("display", "block");
 		  });
@@ -138,13 +136,6 @@
 		  $('#btn-exit').on('click', function (event) {
 			  event.preventDefault();
 			  window.location.href = "http://www.msn.com";
-		  });
-
-
-		  $('#noLoginBttn').on('click', function (event) {
-			  event.preventDefault();
-			  var modAbout = $("#modal-about");
-			  $(modAbout).css("display", "block");
 		  });
 
     		$(document.body).on("submit", "#login-form", function (event) {
