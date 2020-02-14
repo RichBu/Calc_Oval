@@ -59,10 +59,11 @@
 				</div>
 				<div class="col-lg-4 col-md-4 col-sm-8 col-xs-10 inputDivStyle">
 					<div class="row">
-						<form id="login-form" action="/login" method="post">
-							<input type="text" name="_loginName" id='_loginName' class="" placeholder="login">	
-							<input type="password" name="_password" id='_password' class="" placeholder="password">
-							<input type="submit" class="login-submit btn btn-primary loginButton" value="Login">
+						<form id="login-form" action="/calcoval/do-calc-oval" method="post">
+							<input type="text" name="rollDiam" id='rollDiam' class="" placeholder="roll diameter">	
+							<input type="text" name="cavityDiam" id='cavityDiam' class="" placeholder="cavity diameter">	
+							<input type="text" name="cavityDepth" id='cavityDepth' class="" placeholder="cavity depth">	
+							<input type="submit" class="login-submit btn btn-primary loginButton" value="Do Calculations">
 						</form>
 					</div>
 				</div>
@@ -72,7 +73,7 @@
         <div class="text-center navbar navbar-fixed-bottom" id='footer'>
             <div class="container-fluid">
                 <br/>
-                <span id='copyright'>© 2019 Copyright</span>
+                <span id='copyright'>© 2020 Copyright by Rich Budek all rights reserved</span>
             </div>
         </div>
         <!-- </footer> -->
@@ -127,11 +128,6 @@
 			  $(modAbout).css("display", "block");
 		  });
 
-		  $('#btn-login').on('click', function (event) {
-			  event.preventDefault();
-			  var modAbout = $("#modal-about");
-			  $(modAbout).css("display", "block");
-		  });
 
 		  $('#btn-exit').on('click', function (event) {
 			  event.preventDefault();
@@ -141,11 +137,14 @@
     		$(document.body).on("submit", "#login-form", function (event) {
         		event.preventDefault();
         		var url = $(this).attr("action");
-				var _loginName = $('#_loginName').val();
-				var _password = $('#_password').val();
+
+				var _rollDiam = $('#rollDiam').val();
+				var _cavityDiam = $('#cavityDiam').val();
+				var _cavityDepth = $('#cavityDepth').val();
         			$.post(url, {
-            			loginName: _loginName,
-            			password: _password
+            			rollDiam: _rollDiam,
+            			cavityDiam: _cavityDiam,
+						cavityDepth: _cavityDepth
         			}, function (data, success) {
             			//console.log(data);
             			window.location.href = data.url;

@@ -143,8 +143,7 @@
 
 		  $('#noLoginBttn').on('click', function (event) {
 			  event.preventDefault();
-			  var modAbout = $("#modal-about");
-			  $(modAbout).css("display", "block");
+			  window.location.href = '/calcoval';
 		  });
 
     		$(document.body).on("submit", "#login-form", function (event) {
