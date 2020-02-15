@@ -44,7 +44,7 @@
 					-->	
                 </div>
                 <div class="col-xs-4">
-                    <h1>Oval Calculator</h1>
+                    <h1>Oval Calculator - Results</h1>
                 </div>
                 <div class="col-xs-4">
   			      <button id="btn-about" type="button" class="btn btn-primary aboutButton" >About</button>
@@ -59,12 +59,14 @@
 				</div>
 				<div class="col-lg-4 col-md-4 col-sm-8 col-xs-10 inputDivStyle">
 					<div class="row">
-						<form id="login-form" action="/calcoval/do-calc-oval" method="post">
-							<input type="text" name="rollDiam" id='rollDiam' class="" placeholder="roll diameter">	
-							<input type="text" name="cavityDiam" id='cavityDiam' class="" placeholder="cavity diameter">	
-							<input type="text" name="cavityDepth" id='cavityDepth' class="" placeholder="cavity depth">	
-							<input type="submit" class="login-submit btn btn-primary loginButton" value="Do Calculations">
-						</form>
+                        <h2>Values you entered</h2>
+                        <h3>Roll diameter : {{rollDiam}}</h3>
+                        <h3>Pocket diameter : {{cavityDiam}}</h3>
+                        <h3>Pocket depth : {{cavityDepth}}</h3>
+                        <br/>
+                        <h2>Calculated Values</h2>
+                        <h3>Y min value : {{Ydim01}}</h3>
+                        <h3>Y min value : {{Ydim02}}</h3>
 					</div>
 				</div>
 		</div>
@@ -145,11 +147,10 @@
             			rollDiam: _rollDiam,
             			cavityDiam: _cavityDiam,
 						cavityDepth: _cavityDepth
-        			});
-					//, function (data, success) {
+        			}, function (data, success) {
             			//console.log(data);
-            			//window.location.href = data.url;
-        			//});
+            			window.location.href = data.url;
+        			});
     		});  //end of post
   	    });
 

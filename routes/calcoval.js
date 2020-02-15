@@ -54,14 +54,40 @@ router.get('/', function(req, res, next) {
 	
 
 	router.post('/do-calc-oval', function(req, res, next) {
-
-		var rollDiam = req.body.rollDiam;
-		var cavityDiam = req.body.cavityDiam;
-		var cavityDepth =  req.body.cavityDepth;
+		console.log("at /do-calc-oval");
+		var outputUrl = "/";
+		var _rollDiam = req.body.rollDiam;
+		var _cavityDiam = req.body.cavityDiam;
+		var _cavityDepth =  req.body.cavityDepth;
 
 		console.log(req.body);
-		console.log("roll diam = " + rollDiam);
-
+		console.log("roll diam = " + _rollDiam);
+		var diamDiff01 = _rollDiam - _cavityDepth;     //this is the 1/2 deep point
+		var diamDiff02 = _rollDiam - 2.0*_cavityDepth; //this is at max depth of cavity 
+		var ratio01 = diamDiff01 / _rollDiam;  //at 1/2 point
+		var ratio02 = diamDiff02 / _rollDiam;  //at max depth 
+		var Ydim01calc = ratio01*_cavityDiam;
+		var Ydim02calc = ratio02*_cavityDiam;
+		console.log("before the response");
+		res.render('calc_results' 
+		/*
+		{
+			rollDiam: _rollDiam,
+			cavityDiam: _cavityDiam,
+			cavityDepth: _cavityDepth,
+			Ydim01: Ydim01calc,
+			Ydim02: Ydim02calc
+		}*/
+		);
+       //send the 
+		/*
+		res.json({
+			//logged_in: req.session.logged_in,
+			//user_name: req.session.username,
+			url: outputUrl
+			});
+		*/	
+		console.log("after the res.json");	
 	});		
 
 module.exports = router;
