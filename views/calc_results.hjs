@@ -61,12 +61,17 @@
 					<div class="row">
                         <h2>Values you entered</h2>
                         <h3>Roll diameter : {{rollDiam}}</h3>
-                        <h3>Pocket diameter : {{cavityDiam}}</h3>
+                        <h3>X dir dimension : {{cavityDiam}}</h3>
                         <h3>Pocket depth : {{cavityDepth}}</h3>
                         <br/>
                         <h2>Calculated Values</h2>
                         <h3>Y min value : {{Ydim01}}</h3>
-                        <h3>Y min value : {{Ydim02}}</h3>
+                        <h3>Y max value : {{Ydim02}}</h3>
+                        <br/>
+                        <h4>You should change your Y dimensions to fall between these two values. 
+                            If machining a circular feature then make it an oval with the Y direction
+                            made longer to fall between these two values.  Typically, you would always
+                            use the Y max value</h4>
 					</div>
 				</div>
 		</div>

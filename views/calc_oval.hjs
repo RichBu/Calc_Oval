@@ -59,12 +59,12 @@
 				</div>
 				<div class="col-lg-4 col-md-4 col-sm-8 col-xs-10 inputDivStyle">
 					<div class="row">
-						<form id="login-form" action="/calcoval/do-calc-oval" method="post">
-							<input type="text" name="rollDiam" id='rollDiam' class="" placeholder="roll diameter">	
-							<input type="text" name="cavityDiam" id='cavityDiam' class="" placeholder="cavity diameter">	
-							<input type="text" name="cavityDepth" id='cavityDepth' class="" placeholder="cavity depth">	
-							<input type="submit" class="login-submit btn btn-primary loginButton" value="Do Calculations">
+						<form id="calc-form" role="form" action="/calcoval/do-calc-oval" method="post">
+							<input type="text" name="rollDiam" id='rollDiam' class="" placeholder="cylinder (roll) diameter">	
+							<input type="text" name="cavityDiam" id='cavityDiam' class="" placeholder="X direction dimension (cavity diameter)">	
+							<input type="text" name="cavityDepth" id='cavityDepth' class="" placeholder="depth of feature (cavity depth)">	
 						</form>
+						<button id="btn-docalcs" type="button" class="login-submit btn btn-primary loginButton" value="Do Calculations">Do Calculations</button>
 					</div>
 				</div>
 		</div>
@@ -81,15 +81,28 @@
 		<!-- Modal about tech -->
 		<div id="modal-about" class="modal">
 			<div class="modal-content">
-				<h3>Website Information</h3>
+				<h3>Oval Calculator</h3>
 				<div class="divider"></div>
 				<h4>
-					<br/>When machining a circular cutout on a round 
-					<br/>cylinder even though the machine calculates
-					<br/>the proper A axis rotation for the Y co-
-					<br/>coordinates, still the cylinder cut comes
-					<br/>out as an oval.  This calculator does the
-					<br/>calculations for you using a Node JS backend.
+					<br/>When machining on circular cylinder, the engineer draws the feature to be
+					machined in the "flat" X-Y plane.  Then when sending the CNC program to the 
+					CNC machine to be machined, the machine translates all of the Y coordinates
+					to the proper A or rotary axis movements.  There is a problem with this 
+					translation in that all of the Y transformations are only accurate for one 
+					set of conditions.  This is most visible when machining round features. The 
+					round features come out as oval shaped.
+					<br/>
+					<br/>This calculator does the calculations for you so that you can adjust your
+					CAD model to create the proper dimensions.  Simply enter the cylinder diameter
+					you are machining on, the depth of your feature, and then the dimension in the
+					X direction that you want to machine in the Y direction.
+					<br/>
+					<br/>If you are machining a round feature, then the X direction dimension should 
+					be your desired diameter.
+					<br/>
+					<br/>Engineering calculations developed by Rich Budek.  No compensation is done
+					yet for the taper of the tool (it's being developed), therefore, use these calculations 
+					as a guide.
 					<br/>
 					<br/>
 				</h4>
@@ -114,16 +127,18 @@
   	    $(document).ready(function () {
 		  //document is ready, so move the incoming data over
           //closeModals();
-
+			console.log("document is ready");
 
     	  //$(document.body).on("click", "#close-about", closeModals() );
 		  $('#close-about').on('click', function(event) {
 			  event.preventDefault();
+			  console.log("clicked close about");
 			  closeModals();
 		  });
 
 		  $('#btn-about').on('click', function (event) {
 			  event.preventDefault();
+			  console.log("clicked about");
 			  var modAbout = $("#modal-about");
 			  $(modAbout).css("display", "block");
 		  });
@@ -134,13 +149,17 @@
 			  window.location.href = "http://www.msn.com";
 		  });
 
-    		$(document.body).on("submit", "#login-form", function (event) {
+		  $('#btn-docalcs').on('click', function (event) {
+    		//$(document.body).on("submit", "#login-form", function (event) {
         		event.preventDefault();
+				console.log("hit the button");
         		var url = $(this).attr("action");
 
 				var _rollDiam = $('#rollDiam').val();
 				var _cavityDiam = $('#cavityDiam').val();
 				var _cavityDepth = $('#cavityDepth').val();
+				$('#calc-form').submit();
+				/*
         			$.post(url, {
             			rollDiam: _rollDiam,
             			cavityDiam: _cavityDiam,
@@ -150,6 +169,7 @@
             			//console.log(data);
             			//window.location.href = data.url;
         			//});
+					*/
     		});  //end of post
   	    });
 

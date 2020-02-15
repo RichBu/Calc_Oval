@@ -63,23 +63,22 @@ router.get('/', function(req, res, next) {
 		console.log(req.body);
 		console.log("roll diam = " + _rollDiam);
 		var diamDiff01 = _rollDiam - _cavityDepth;     //this is the 1/2 deep point
-		var diamDiff02 = _rollDiam - 2.0*_cavityDepth; //this is at max depth of cavity 
-		var ratio01 = diamDiff01 / _rollDiam;  //at 1/2 point
-		var ratio02 = diamDiff02 / _rollDiam;  //at max depth 
-		var Ydim01calc = ratio01*_cavityDiam;
-		var Ydim02calc = ratio02*_cavityDiam;
+		var diamDiff02 = _rollDiam - (_cavityDepth*2.0); //this is at max depth of cavity 
+		var ratio01 = _rollDiam / diamDiff01;  //at 1/2 point
+		var ratio02 = _rollDiam / diamDiff02;  //at max depth 
+		var Ydim01calc = ratio01 * _cavityDiam;
+		var Ydim01out = math.format(Ydim01calc,  {notation: 'fixed', precision: 4});
+		var Ydim02calc = ratio02 * _cavityDiam;
+		var Ydim02out = math.format(Ydim02calc,  {notation: 'fixed', precision: 4});
 		console.log("before the response");
-		res.render('calc_results' 
-		/*
-		{
+		res.render('calc_results', 
+			{
 			rollDiam: _rollDiam,
 			cavityDiam: _cavityDiam,
 			cavityDepth: _cavityDepth,
-			Ydim01: Ydim01calc,
-			Ydim02: Ydim02calc
-		}*/
-		);
-       //send the 
+			Ydim01: Ydim01out,
+			Ydim02: Ydim02out
+			});
 		/*
 		res.json({
 			//logged_in: req.session.logged_in,

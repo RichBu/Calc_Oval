@@ -39,15 +39,16 @@
             <div class="row" style="padding: 20px 0px 0px 0px;" >
 				<!--Site Logo-->
                 <div class="col-xs-4">
+  			      <button id="btn-about" type="button" class="btn btn-primary aboutButton" >About</button>
                     <!-- 
 						<a href='/'><img src="/images/genielogo.png" alt='TableTop Genie Logo' id='pageLogo' class='img img-thumbnail'></a>
 					-->	
                 </div>
                 <div class="col-xs-4">
-                    <h1>Oval Calculator</h1>
+                    <h1>Calculators</h1>
                 </div>
                 <div class="col-xs-4">
-  			      <button id="btn-about" type="button" class="btn btn-primary aboutButton" >About</button>
+  			      <button id="btn-tech" type="button" class="btn btn-primary aboutButton" >Tech Info</button>
                 </div>
             </div>
 			<hr/>
@@ -59,11 +60,18 @@
 				</div>
 				<div class="col-lg-4 col-md-4 col-sm-8 col-xs-10 inputDivStyle">
 					<div class="row">
+						<form id="calc-oval" action="/login" method="post">
+							<input id="noLoginBttn" type="" class="login-submit btn btn-primary loginButton" value="Oval Calculator">
+						</form>
+					</div>
+					<hr/>
+					<br/>
+					<h4>Advanced calculators  (require login)</h4>
+					<div class="row">
 						<form id="login-form" action="/login" method="post">
 							<input type="text" name="_loginName" id='_loginName' class="" placeholder="login">	
 							<input type="password" name="_password" id='_password' class="" placeholder="password">
 							<input type="submit" class="login-submit btn btn-primary loginButton" value="Login">
-							<input id="noLoginBttn" type="" class="login-submit btn btn-primary loginButton" value="No Login">
 						</form>
 					</div>
 				</div>
@@ -73,20 +81,21 @@
         <div class="text-center navbar navbar-fixed-bottom" id='footer'>
             <div class="container-fluid">
                 <br/>
-                <span id='copyright'>© 2019 Copyright</span>
+                <span id='copyright'>© 2020 Copyright by Rich Budek all rights reserved</span>
             </div>
         </div>
         <!-- </footer> -->
 
-		<!-- Modal about tech -->
+		<!-- Modal about -->
 		<div id="modal-about" class="modal">
 			<div class="modal-content">
-				<h3>Website Information</h3>
+				<h3>Welcome</h3>
 				<div class="divider"></div>
 				<h4>
-					<br/>This is a website demonstrating the use of a backend API when doing calculations.
 					<br/>
-					<br/> The enduser can not see how the calculations were performed.  There is a login sequence that uses the backend also and exposes more information.
+					<br/>This is a website designed by Rich Budek for doing engineering calculations on a website.
+					<br/>
+					<br/> The calculators in the top section are provided for free for others you need a login.
 					<br/>
 					<br/> If you do not have the login then you will not be able to view the other calculations.
 					<br/>
@@ -97,9 +106,40 @@
 					<button id="close-about" type="button" class="btn btn-primary closeButton" data-dismiss="modal">Close</button>
 					<button id="btn-exit" type="button" class="btn btn-primary exitButton" data-dismiss="modal">&nbspExit&nbsp</button>
 					<br/><br/>
-				</div>
-				
-				</div>
+				</div>		
+			</div>
+		</div>
+
+		<!-- Modal tech -->
+		<div id="modal-tech" class="modal">
+			<div class="modal-content">
+				<h3>Technical Information</h3>
+				<div class="divider"></div>
+				<h4>
+					<br/>Rich Budek designed website. Front end, backend, API calls, and all engineering calculations are done by Rich Budek
+					<br/>
+					<br/>This is a website demonstrating the use of a backend API when doing calculations.
+					<br/>
+					<br/> The enduser can not see how the calculations were performed. The calculations are 
+					all done in a Node JS backend.  Information is sent via post commands and returned by
+					render commands that have the results embedded in the output.  So looking at the browser
+					source, all the user sees is the HTML tags and the information is hard coded in, looking
+					like a static web page, but it is actually a dynamically generated backend.
+					<br/>
+					<br/>The forms do API calls to my own backend server.  In addition, to go forward to the 
+					next pages, a post path is done to prevent the user from bookmarking the individual pages.
+					This is done so that in the future, some of the "free" calculators can be moved to the login
+					path and the user will not have access to them either. 
+					<br/>
+					<br/>
+					<br/> Rich Budek  rb@RichBudek.com
+					<br/>
+				</h4>
+				<div style="padding: 20px 0px 10px 0px;"  class="divider">
+					<button id="close-tech" type="button" class="btn btn-primary closeButton" data-dismiss="modal">Close</button>
+					<button id="btn-exit" type="button" class="btn btn-primary exitButton" data-dismiss="modal">&nbspExit&nbsp</button>
+					<br/><br/>
+				</div>		
 			</div>
 		</div>
 
@@ -107,6 +147,9 @@
 
 		var closeModals = function() {
 			var modAbout = $("#modal-about");
+			$(modAbout).css("display", "none");		
+
+			var modTech = $("#modal-tech");
 			$(modAbout).css("display", "none");		
 			window.location.reload(false);
 		};
@@ -122,10 +165,20 @@
 			  closeModals();
 		  });
 
+		  $('#close-tech').on('click', function(event) {
+			  event.preventDefault();
+			  closeModals();
+		  });
+
 		  $('#btn-about').on('click', function (event) {
 			  event.preventDefault();
-			  console.log("detected btn-about");
 			  var modAbout = $("#modal-about");
+			  $(modAbout).css("display", "block");
+		  });
+
+		  $('#btn-tech').on('click', function (event) {
+			  event.preventDefault();
+			  var modAbout = $("#modal-tech");
 			  $(modAbout).css("display", "block");
 		  });
 
@@ -155,13 +208,12 @@
             			loginName: _loginName,
             			password: _password
         			}, function (data, success) {
-            			//console.log(data);
+						//need to move submit button outside of form
+						//can not redirect inside of a $.post command
             			window.location.href = data.url;
         			});
     		});  //end of post
   	    });
-
-
 		</script>
 	</body>
 
