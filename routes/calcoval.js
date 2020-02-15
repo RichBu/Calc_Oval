@@ -27,66 +27,53 @@ class userLogRecStoreType {
   };
 
 
-//
-//	Stream the video
-//
-
-
 router.get('/', function(req, res, next) {
-	//routine to render the video playback page
-	console.log('calcoval page')
-
-	/*
-	res.render('play_video', {
-		base_url: process.env.BASE_URL,
-		//videoTitle: 'toystory.mp4',
-		videoTitle: sqlTitle,
-		videoFile: videoFileOut,
-		videoTag: videoTagOut,
-		isOnGoogleDrive: isOnGoogleDriveF,
-		shortDescrip: sqlShort_descrip,
-		longDescrip: sqlLong_descrip
-	});
-	*/
-	//not logged in bump back out
-	res.render('calc_oval');
+	//this is the root route for /calcoval 
+	//it is now thru a post call so display nothing if the user
+	//bookmarks this location
 	});
 	
 
-	router.post('/do-calc-oval', function(req, res, next) {
-		console.log("at /do-calc-oval");
+router.post('/do-calc-oval', function(req, res, next) {
 		var outputUrl = "/";
 		var _rollDiam = req.body.rollDiam;
 		var _cavityDiam = req.body.cavityDiam;
 		var _cavityDepth =  req.body.cavityDepth;
 
-		console.log(req.body);
-		console.log("roll diam = " + _rollDiam);
+		var numDec = 4;
+		var rollDiamOut = math.format((_rollDiam*1.0),  {notation: 'fixed', precision: numDec});
+		var cavityDiamOut = math.format((_cavityDiam*1.0),  {notation: 'fixed', precision: numDec});
+		var cavityDepthOut = math.format((_cavityDepth*1.0),  {notation: 'fixed', precision: numDec});
+
 		var diamDiff01 = _rollDiam - _cavityDepth;     //this is the 1/2 deep point
 		var diamDiff02 = _rollDiam - (_cavityDepth*2.0); //this is at max depth of cavity 
+
 		var ratio01 = _rollDiam / diamDiff01;  //at 1/2 point
+		var ratioMinOut = math.format(ratio01,  {notation: 'fixed', precision: numDec});
+		var ratioMinPer = (ratioMinOut - 1.0) * 100.0;
+		var ratioMinPerOut = math.format(ratioMinPer,  {notation: 'fixed', precision: 2});
+
 		var ratio02 = _rollDiam / diamDiff02;  //at max depth 
+		var ratioMaxOut = math.format(ratio02,  {notation: 'fixed', precision: numDec});
+		var ratioMaxPer = (ratioMaxOut - 1.0) * 100.0 ;
+		var ratioMaxPerOut = math.format(ratioMaxPer,  {notation: 'fixed', precision: 2});
+
 		var Ydim01calc = ratio01 * _cavityDiam;
-		var Ydim01out = math.format(Ydim01calc,  {notation: 'fixed', precision: 4});
+		var Ydim01out = math.format(Ydim01calc,  {notation: 'fixed', precision: numDec});
 		var Ydim02calc = ratio02 * _cavityDiam;
-		var Ydim02out = math.format(Ydim02calc,  {notation: 'fixed', precision: 4});
-		console.log("before the response");
+		var Ydim02out = math.format(Ydim02calc,  {notation: 'fixed', precision: numDec});
 		res.render('calc_results', 
 			{
-			rollDiam: _rollDiam,
-			cavityDiam: _cavityDiam,
-			cavityDepth: _cavityDepth,
+			rollDiam: rollDiamOut,
+			cavityDiam: cavityDiamOut,
+			cavityDepth: cavityDepthOut,
 			Ydim01: Ydim01out,
-			Ydim02: Ydim02out
+			Ydim02: Ydim02out,
+			ratioMin: ratioMinOut,
+			ratioMinPer: ratioMinPerOut,
+			ratioMax: ratioMaxOut,
+			ratioMaxPer: ratioMaxPerOut
 			});
-		/*
-		res.json({
-			//logged_in: req.session.logged_in,
-			//user_name: req.session.username,
-			url: outputUrl
-			});
-		*/	
-		console.log("after the res.json");	
 	});		
 
 module.exports = router;

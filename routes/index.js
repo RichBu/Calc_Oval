@@ -316,4 +316,10 @@ router.post('/login', function(req, res, next) {
 	  });  //query to write to user log
 });
 
+
+router.post('/ovalcalc', function(req, res, next) {
+	console.log("hit the post route");
+	res.render('calc_oval');
+});
+
 module.exports = router;

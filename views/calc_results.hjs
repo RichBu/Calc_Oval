@@ -28,7 +28,7 @@
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
           crossorigin="anonymous"></script>
 
-		<link rel='stylesheet' type='text/css' href='/css/index.css'>
+		<link rel='stylesheet' type='text/css' href='/css/calc_oval.css'>
 	</head>
 
 	<body>
@@ -44,10 +44,11 @@
 					-->	
                 </div>
                 <div class="col-xs-4">
-                    <h1>Oval Calculator - Results</h1>
+                    <h1>Oval Calculator</h1>
+                    <h3>Results</h3>
                 </div>
                 <div class="col-xs-4">
-  			      <button id="btn-about" type="button" class="btn btn-primary aboutButton" >About</button>
+  			      <button id="btn-moreinfo" type="button" class="btn btn-primary aboutButton" >More Info</button>
                 </div>
             </div>
 			<hr/>
@@ -60,18 +61,28 @@
 				<div class="col-lg-4 col-md-4 col-sm-8 col-xs-10 inputDivStyle">
 					<div class="row">
                         <h2>Values you entered</h2>
-                        <h3>Roll diameter : {{rollDiam}}</h3>
-                        <h3>X dir dimension : {{cavityDiam}}</h3>
-                        <h3>Pocket depth : {{cavityDepth}}</h3>
+                        <h3>Cylinder diameter : {{rollDiam}}</h3>
+                        <h3>X dir dimension : {{cavityDiam}} (diameter if round)</h3>
+                        <h3>Feature depth : {{cavityDepth}}</h3>
                         <br/>
                         <h2>Calculated Values</h2>
+                        <h3>X value : {{cavityDiam}} (unchanged)</h3>
+                        <br/>
                         <h3>Y min value : {{Ydim01}}</h3>
                         <h3>Y max value : {{Ydim02}}</h3>
                         <br/>
+                        <h3>Y scale min : {{ratioMin}} ({{ratioMinPer}}%)</h3>
+                        <h3>Y scale max : {{ratioMax}} ({{ratioMaxPer}}%)</h3>
+                        <br/>
+                        <br/>
                         <h4>You should change your Y dimensions to fall between these two values. 
-                            If machining a circular feature then make it an oval with the Y direction
-                            made longer to fall between these two values.  Typically, you would always
-                            use the Y max value</h4>
+                            Scale values provided if scaling your drawing instead of drawing from scratch.</h4>
+                        <br/>
+                        <h4>Press the More Info button for an explanation</h4>
+  			            <button id="btn-moreinfo2" type="button" class="btn btn-primary aboutButton" >More Info</button>
+                        <br/>
+                        <br/>
+                        <br/>
 					</div>
 				</div>
 		</div>
@@ -85,18 +96,24 @@
         </div>
         <!-- </footer> -->
 
-		<!-- Modal about tech -->
-		<div id="modal-about" class="modal">
+		<!-- Modal more info -->
+		<div id="modal-moreinfo" class="modal">
 			<div class="modal-content">
-				<h3>Website Information</h3>
+				<h3>Calculation Results</h3>
 				<div class="divider"></div>
 				<h4>
-					<br/>When machining a circular cutout on a round 
-					<br/>cylinder even though the machine calculates
-					<br/>the proper A axis rotation for the Y co-
-					<br/>coordinates, still the cylinder cut comes
-					<br/>out as an oval.  This calculator does the
-					<br/>calculations for you using a Node JS backend.
+					<br/>Your model needs to be adjusted by the following Results
+                    <br/>
+                    <br/>1. In the X direction, NO adjustments
+                    <br/>2. In the Y direction, you must adjust your new Y value to
+                    be within the range of the Y min and Y max. Usually, you will
+                    choose the Y min value.
+                    <br/>
+                    <br/>If machining a round feature, simply make it oval using the
+                    X direction value as your original round feature's diameter.  In
+                    the Y direction make your Y measurement be equal to the value shown.
+                    <br/>
+                    <br/>If scaling, use the Y min scale value.
 					<br/>
 					<br/>
 				</h4>
@@ -113,7 +130,7 @@
 		<script>
 
 		var closeModals = function() {
-			var modAbout = $("#modal-about");
+			var modAbout = $("#modal-moreinfo");
 			$(modAbout).css("display", "none");		
 			window.location.reload(false);
 		};
@@ -129,9 +146,15 @@
 			  closeModals();
 		  });
 
-		  $('#btn-about').on('click', function (event) {
+		  $('#btn-moreinfo').on('click', function (event) {
 			  event.preventDefault();
-			  var modAbout = $("#modal-about");
+			  var modAbout = $("#modal-moreinfo");
+			  $(modAbout).css("display", "block");
+		  });
+
+		  $('#btn-moreinfo2').on('click', function (event) {
+			  event.preventDefault();
+			  var modAbout = $("#modal-moreinfo");
 			  $(modAbout).css("display", "block");
 		  });
 
@@ -140,27 +163,8 @@
 			  event.preventDefault();
 			  window.location.href = "http://www.msn.com";
 		  });
-
-    		$(document.body).on("submit", "#login-form", function (event) {
-        		event.preventDefault();
-        		var url = $(this).attr("action");
-
-				var _rollDiam = $('#rollDiam').val();
-				var _cavityDiam = $('#cavityDiam').val();
-				var _cavityDepth = $('#cavityDepth').val();
-        			$.post(url, {
-            			rollDiam: _rollDiam,
-            			cavityDiam: _cavityDiam,
-						cavityDepth: _cavityDepth
-        			}, function (data, success) {
-            			//console.log(data);
-            			window.location.href = data.url;
-        			});
-    		});  //end of post
   	    });
-
 
 		</script>
 	</body>
-
 </html>

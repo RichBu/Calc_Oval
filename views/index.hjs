@@ -39,13 +39,14 @@
             <div class="row" style="padding: 20px 0px 0px 0px;" >
 				<!--Site Logo-->
                 <div class="col-xs-4">
-  			      <button id="btn-about" type="button" class="btn btn-primary aboutButton" >About</button>
+  			      <button id="btn-about" type="button" class="btn btn-primary leftButton" >About</button>
                     <!-- 
 						<a href='/'><img src="/images/genielogo.png" alt='TableTop Genie Logo' id='pageLogo' class='img img-thumbnail'></a>
 					-->	
                 </div>
                 <div class="col-xs-4">
                     <h1>Calculators</h1>
+                    <h3>by Rich Budek</h3>
                 </div>
                 <div class="col-xs-4">
   			      <button id="btn-tech" type="button" class="btn btn-primary aboutButton" >Tech Info</button>
@@ -60,13 +61,13 @@
 				</div>
 				<div class="col-lg-4 col-md-4 col-sm-8 col-xs-10 inputDivStyle">
 					<div class="row">
-						<form id="calc-oval" action="/login" method="post">
-							<input id="noLoginBttn" type="" class="login-submit btn btn-primary loginButton" value="Oval Calculator">
+						<button id="OvalCalcBttn" type="" class="calcButton btn btn-primary" value="bttnCalcOval">Oval Calculator</button>
+						<form id="calc-oval-form" action="/ovalcalc" method="post">
 						</form>
 					</div>
 					<hr/>
-					<br/>
 					<h4>Advanced calculators  (require login)</h4>
+					<br/>
 					<div class="row">
 						<form id="login-form" action="/login" method="post">
 							<input type="text" name="_loginName" id='_loginName' class="" placeholder="login">	
@@ -93,9 +94,14 @@
 				<div class="divider"></div>
 				<h4>
 					<br/>
-					<br/>This is a website designed by Rich Budek for doing engineering calculations on a website.
+					<br/>This is a website designed by Rich Budek for doing engineering calculations thru a 
+					website.  I have taken some unique problems I have encountered in my engineering career
+					that have no known solutions posted.  I have derived all the formulae myself. At the 
+					present moment I am willing to share the use of the calculations but not necessarily
+					the derivations behind them.  Therefore, the calculations are done in my Web Server's 
+					backend and only the calculations are fed forward for your use thru the use of API calls.
 					<br/>
-					<br/> The calculators in the top section are provided for free for others you need a login.
+					<br/> The calculators in the top section are provided for free. For others you need a login.
 					<br/>
 					<br/> If you do not have the login then you will not be able to view the other calculations.
 					<br/>
@@ -194,9 +200,11 @@
 		  });
 
 
-		  $('#noLoginBttn').on('click', function (event) {
+		  $('#OvalCalcBttn').on('click', function (event) {
 			  event.preventDefault();
-			  window.location.href = '/calcoval';
+			  console.log("hit the oval calc button")
+			  $("#calc-oval-form").submit();
+			  //window.location.href = '/calcoval';
 		  });
 
     		$(document.body).on("submit", "#login-form", function (event) {
