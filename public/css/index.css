@@ -256,9 +256,9 @@ input {
     /* margin: 0px; */
     padding: 0px 0px 0px 5%;
     z-index: 5;
-    /* background: url('../images/Weid_back_01.jpg'); */
+    /* background: url('../images/Oval_back_01.jpg'); */
     /* background-repeat: repeat; */
-    /* background-image: url('/images/Weid_back_01.jpg') repeat center; */
+    /* background-image: url('/images/Oval_back_01.jpg') repeat center; */
     /* background-repeat: repeat-y; */
     background: rgba(255,255,255,0.9); 
   }
@@ -300,7 +300,7 @@ input {
 
   .blankImage > figure {
     backface-visibility: hidden;
-    background-image: url('/images/Pic_01.jpg') repeat;
+    background-image: url('/images/Oval_01.png') repeat;
     /* background-size: cover; */
     /* background-position: center center; */
     color: transparent;
@@ -315,141 +315,3 @@ input {
     z-index: -10;
   }
 
-
-.crossfade > figure {
-    animation: imageAnimation 10s linear infinite 0s;
-    backface-visibility: hidden;
-    /* background-size: cover; */
-    background-repeat: repeat;
-    background-position: center center;
-    color: transparent;
-    min-height: 850px;
-    min-width: 855px;
-    height: 100%;
-    opacity: 0;
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    bottom: 0px;
-    width: 100%;
-    margin: 0px;
-    padding: 0px;
-    z-index: -5;
-  }
-
-
-.crossfade > figure:nth-child(1) { 
-    animation-name: imageAnimation;
-    animation-delay: 0s;
-    animation-iteration-count: infinite;
-    animation-duration: 50s;
-    opacity: 0.0;
-    background-image: url('/images/Pic_01.jpg');
-}
-
-.crossfade > figure:nth-child(2) { 
-  animation-name: imageAnimation;
-  animation-delay: 5s;
-  animation-iteration-count: infinite;
-  animation-duration: 50s;
-  opacity: 0.0;
-  background-image: url('/images/Pic_02.jpg');
-}
-
-.crossfade > figure:nth-child(3) { 
-  animation-name: imageAnimation;
-  animation-delay: 10s;
-  animation-iteration-count: infinite;
-  animation-duration: 50s;
-  opacity: 0.0;
-  background-image: url('/images/Pic_03.jpg');
-}
-
-.crossfade > figure:nth-child(4) { 
-  animation-name: imageAnimation;
-  animation-delay: 15s;
-  animation-iteration-count: infinite;
-  animation-duration: 50s;
-  opacity: 0.0;
-  background-image: url('/images/Pic_04.jpg');
-}
-
-.crossfade > figure:nth-child(5) { 
-  animation-name: imageAnimation;
-  animation-delay: 20s;
-  animation-iteration-count: infinite;
-  animation-duration: 50s;
-  opacity: 0.0;
-  background-image: url('/images/Pic_05.jpg');
-}
-
-.crossfade > figure:nth-child(6) { 
-  animation-name: imageAnimation;
-  animation-delay: 25s;
-  animation-iteration-count: infinite;
-  animation-duration: 50s;
-  opacity: 0.0;
-  background-image: url('/images/Pic_06.jpg');
-}
-
-
-.crossfade > figure:nth-child(7) { 
-  animation-name: imageAnimation;
-  animation-delay: 30s;
-  animation-iteration-count: infinite;
-  animation-duration: 50s;
-  opacity: 0.0;
-  background-image: url('/images/Pic_07.jpg');
-}
-
-.crossfade > figure:nth-child(9) { 
-  animation-name: imageAnimation;
-  animation-delay: 35s;
-  animation-iteration-count: infinite;
-  animation-duration: 50s;
-  opacity: 0.0;
-  background-image: url('/images/Pic_09.jpg');
-}
-
-.crossfade > figure:nth-child(10) { 
-  animation-name: imageAnimation;
-  animation-delay: 40s;
-  animation-iteration-count: infinite;
-  animation-duration: 50s;
-  opacity: 0.0;
-  background-image: url('/images/Pic_10.jpg');
-}
-
-.crossfade > figure:nth-child(11) { 
-  animation-name: imageAnimation;
-  animation-delay: 45s;
-  animation-iteration-count: infinite;
-  animation-duration: 50s;
-  opacity: 0.0;
-  background-image: url('/images/Pic_11.jpg');
-}
-
-@keyframes 
-imageAnimation {  
-0% {
-    animation-timing-function: ease-in; 
-    opacity: 0.0;
-}
-1% {
-    animation-timing-function: ease-in; 
-    opacity: 1.0;
-    }
-9% {
-    animation-timing-function: ease-in; 
-    opacity: 1.0;
-    }
-10% {
-    opacity: 0.0;
-    }
-95% {
-    opacity: 0.0;
-}
-100% {
-    opacity: 0.0;
-}
-}
