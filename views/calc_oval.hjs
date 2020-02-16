@@ -90,7 +90,7 @@
 				<div class="divider"></div>
 				<h4>
 					<br/>When machining on circular cylinder, the engineer draws the feature to be
-					machined in the "flat" X-Y plane.  Then when sending the CNC program to the 
+					machined in the "flat" X-Y plane.  Then, when sending the CNC program to the 
 					CNC machine to be machined, the machine translates all of the Y coordinates
 					to the proper A or rotary axis movements.  There is a problem with this 
 					translation in that all of the Y transformations are only accurate for one 
@@ -133,6 +133,9 @@
 					inches, centimeters, etc.  As long as you use the same units for ALL the inputs.
 					<br/>
 					<br/>
+					<img src="/images/Oval_01.png" height="199" width="573">
+					<br/>
+					<br/>
 				</h4>
 				<div style="padding: 20px 0px 10px 0px;"  class="divider">
 					<button id="btn-close-help1" type="button" class="btn btn-primary closeButton close-help" data-dismiss="modal">Close</button>
@@ -159,6 +162,9 @@
 					will have to be lengthened and the calculations will tell you what they are.
 					<br/>
 					<br/>
+					<img src="/images/Oval_02.png" height="199" width="573">
+					<br/>
+					<br/>
 				</h4>
 				<div style="padding: 20px 0px 10px 0px;"  class="divider">
 					<button id="btn-close-help2" type="button" class="btn btn-primary closeButton close-help" data-dismiss="modal">Close</button>
@@ -180,6 +186,9 @@
 					The depth determines how distorted your feature will be. Enter the depth
 					using the same units you did for your cylinder diameter and X direction 
 					diameter.
+					<br/>
+					<br/>
+					<img src="/images/Oval_06.png" height="199" width="573">
 					<br/>
 					<br/>
 				</h4>

@@ -116,6 +116,9 @@
                     <br/>If scaling, use the Y min scale value.
 					<br/>
 					<br/>
+					<img src="/images/Oval_04.png" height="199" width="573">
+					<br/>
+					<br/>
 				</h4>
 				<div style="padding: 20px 0px 10px 0px;"  class="divider">
 					<button id="close-about" type="button" class="btn btn-primary closeButton" data-dismiss="modal">Close</button>
