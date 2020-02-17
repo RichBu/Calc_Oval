@@ -80,9 +80,11 @@
                         <br/>
                         <h4>Press the More Info button for an explanation</h4>
   			            <button id="btn-moreinfo2" type="button" class="btn btn-primary aboutButton" >More Info</button>
-                        <br/>
-                        <br/>
-                        <br/>
+                        <br/><h4> </h4>
+                        <br/><h4> </h4>
+                        <br/><h4> </h4>
+                        <br/><h4> </h4>
+                        <br/><h4> </h4>
 					</div>
 				</div>
 		</div>
