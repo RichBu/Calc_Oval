@@ -34,6 +34,23 @@ class ipRecStoreType {
   };
 
 
+//put in a separate file
+class userActionLogRecStoreType {
+	constructor(_timeStr, _ip_addr, _action_done, _rollDiam, _diamXdir, _cavityDepth, _calcXval, _calcYmin, _calcYmax, _calcScaleMin, _calcScaleMax){
+	  this.timeStr = _timeStr;
+	  this.ip_addr = _ip_addr;
+	  this.action_done = _action_done;
+	  this.rollDiam = _rollDiam;
+	  this.dimXdir = _diamXdir;
+	  this.cavityDepth = _cavityDepth,
+	  this.calcXval = _calcXval;
+	  this.calcYmin = _calcYmin;
+	  this.calcYmax = _calcYmax;
+	  this.calcScaleMin = _calcScaleMin;
+	  this.calcScaleMax = _calcScaleMax
+	}
+};
+
 class userLogRecStoreType {
 	constructor( _timeStr, _clientIP, _loginName, _password, _fullName, _action_done ) {
 	  this.timeStr = _timeStr;
@@ -124,6 +141,7 @@ router.get('/', function(req, res, next) {
 				], function (err, response) {
 				//what to do after the log has been written
 				console.log('wrote to ip local');
+
 				//res.sendStatus(200).end();  
 				res.render('index', {
 					base_url: process.env.BASE_URL
@@ -318,8 +336,40 @@ router.post('/login', function(req, res, next) {
 
 
 router.post('/ovalcalc', function(req, res, next) {
-	console.log("hit the post route");
-	res.render('calc_oval');
+	console.log("hit the ovalcalc post route");
+
+	let userLogRec = new userActionLogRecStoreType(
+		moment().format("YYYY-MM-DD  HH:mm a"),
+		//"10.10.10.190",
+		req.session.clientIP,
+		"hit calc-oval bttn",
+		"0.0000", //diam
+		"0.0000", //dimXdir
+		"0.0000", //cavityDepth
+		"0.0000", //calcXval
+		"0.0000", //calcYmin
+		"0.0000", //calcYmax
+		"1.0000", //calcScaleMin
+		"1.0000"  //calcScaleMax
+	);
+	
+	var query = "INSERT INTO user_log ( time_str, ip_addr, action_done, rollDiam, dimXdir, cavityDepth, calcXval, calcYmin, calcYmax, calcScaleMin, calcScaleMax) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )";
+	connection.query(query, [
+	  userLogRec.timeStr,
+	  userLogRec.ip_addr,
+	  userLogRec.action_done,
+	  userLogRec.rollDiam,
+	  userLogRec.dimXdir,
+	  userLogRec.cavityDepth,
+	  userLogRec.calcXval,
+	  userLogRec.calcYmin,
+	  userLogRec.calcYmax,
+	  userLogRec.calcScaleMin,
+	  userLogRec.calcScaleMax
+	  ], function (err, response) {
+		  //wrote the action log, so can render the page
+		  res.render('calc_oval');
+	  });
 });
 
 module.exports = router;

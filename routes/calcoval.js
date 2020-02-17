@@ -15,16 +15,21 @@ const math = require('mathjs');
 
 
 //put in a separate file
-class userLogRecStoreType {
-	constructor( _timeStr, _clientIP, _loginName, _password, _fullName, _action_done ) {
+class userActionLogRecStoreType {
+	constructor(_timeStr, _ip_addr, _action_done, _rollDiam, _diamXdir, _cavityDepth, _calcXval, _calcYmin, _calcYmax, _calcScaleMin, _calcScaleMax){
 	  this.timeStr = _timeStr;
-	  this.clientIP = _clientIP;
-	  this.loginName = _loginName;
-	  this.password = _password;
-	  this.fullName = _fullName;
-	  this.action_done = _action_done
+	  this.ip_addr = _ip_addr;
+	  this.action_done = _action_done;
+	  this.rollDiam = _rollDiam;
+	  this.dimXdir = _diamXdir;
+	  this.cavityDepth = _cavityDepth,
+	  this.calcXval = _calcXval;
+	  this.calcYmin = _calcYmin;
+	  this.calcYmax = _calcYmax;
+	  this.calcScaleMin = _calcScaleMin;
+	  this.calcScaleMax = _calcScaleMax
 	}
-  };
+}
 
 
 router.get('/', function(req, res, next) {
@@ -62,18 +67,51 @@ router.post('/do-calc-oval', function(req, res, next) {
 		var Ydim01out = math.format(Ydim01calc,  {notation: 'fixed', precision: numDec});
 		var Ydim02calc = ratio02 * _cavityDiam;
 		var Ydim02out = math.format(Ydim02calc,  {notation: 'fixed', precision: numDec});
-		res.render('calc_results', 
-			{
-			rollDiam: rollDiamOut,
-			cavityDiam: cavityDiamOut,
-			cavityDepth: cavityDepthOut,
-			Ydim01: Ydim01out,
-			Ydim02: Ydim02out,
-			ratioMin: ratioMinOut,
-			ratioMinPer: ratioMinPerOut,
-			ratioMax: ratioMaxOut,
-			ratioMaxPer: ratioMaxPerOut
-			});
+
+		//store to the log first
+		let userLogRec = new userActionLogRecStoreType(
+			moment().format("YYYY-MM-DD  HH:mm a"),
+			//"10.10.10.190",
+			req.session.clientIP,
+			"hit calc-oval bttn",
+			rollDiamOut, 			//diam
+			cavityDiamOut, 		 	//dimXdir
+			cavityDepthOut, 		//cavityDepth
+			cavityDiamOut, 			//calcXval
+			Ydim01out, 				//calcYmin
+			Ydim02out, 				//calcYmax
+			ratioMinOut, 			//calcScaleMin
+			ratioMaxOut			  	//calcScaleMax
+		);
+		
+		var query = "INSERT INTO user_log ( time_str, ip_addr, action_done, rollDiam, dimXdir, cavityDepth, calcXval, calcYmin, calcYmax, calcScaleMin, calcScaleMax) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )";
+		connection.query(query, [
+		  userLogRec.timeStr,
+		  userLogRec.ip_addr,
+		  userLogRec.action_done,
+		  userLogRec.rollDiam,
+		  userLogRec.dimXdir,
+		  userLogRec.cavityDepth,
+		  userLogRec.calcXval,
+		  userLogRec.calcYmin,
+		  userLogRec.calcYmax,
+		  userLogRec.calcScaleMin,
+		  userLogRec.calcScaleMax
+		  ], function (err, response) {
+			  //wrote the action log, so can render the page
+			  res.render('calc_results', 
+			  {
+			  rollDiam: rollDiamOut,
+			  cavityDiam: cavityDiamOut,
+			  cavityDepth: cavityDepthOut,
+			  Ydim01: Ydim01out,
+			  Ydim02: Ydim02out,
+			  ratioMin: ratioMinOut,
+			  ratioMinPer: ratioMinPerOut,
+			  ratioMax: ratioMaxOut,
+			  ratioMaxPer: ratioMaxPerOut
+			  });  
+		  });
 	});		
 
 module.exports = router;
