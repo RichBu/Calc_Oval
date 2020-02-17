@@ -73,7 +73,7 @@ router.post('/do-calc-oval', function(req, res, next) {
 			moment().format("YYYY-MM-DD  HH:mm a"),
 			//"10.10.10.190",
 			req.session.clientIP,
-			"hit calc-oval bttn",
+			"calculation",
 			rollDiamOut, 			//diam
 			cavityDiamOut, 		 	//dimXdir
 			cavityDepthOut, 		//cavityDepth
