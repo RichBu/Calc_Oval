@@ -1,8 +1,6 @@
 let fs      = require('fs')
 let path    = require('path');
 let express = require('express');
-const url = require('url');
-
 let router  = express.Router();
 
 //var connection = require('../connection');
@@ -88,9 +86,26 @@ router.post('/do-calc-oval', function(req, res, next) {
 			ratioMaxPerOut, Ydim01out, Ydim02out
 		*/
 
+		function createQueryString(params) {
+			let queryString = '';
+			for (const key in params) {
+			  if (params.hasOwnProperty(key)) {
+				const value = params[key];
+				if (Array.isArray(value)) {
+				  for (const item of value) {
+					queryString += `${encodeURIComponent(key)}[]=${encodeURIComponent(item)}&`;
+				  }
+				} else {
+				  queryString += `${encodeURIComponent(key)}=${encodeURIComponent(value)}&`;
+				}
+			  }
+			}
+			return queryString.slice(0, -1); // Remove the trailing '&'
+		  }
+
 		var sendObjBack = function (errCode, errMsg, errLine, errExp, 
-			_rollDiamOut, _cavityDiamOut, _cavityDepthOut, _ratioMinPerOut,
-			_ratioMaxPerOut, _Ydim01out, _Ydim02out ) {
+			_rollDiamOut, _cavityDiamOut, _cavityDepthOut, _ratioMinOut, _ratioMinPerOut,
+			_ratioMaxOut, _ratioMaxPerOut, _Ydim01out, _Ydim02out ) {
 
 			//writeAuditLog("Device reg", _user_name, _user_email, "code: " + errCode + " = " + errMsg, " ", " ");
 			let respondObj = {};
@@ -102,7 +117,9 @@ router.post('/do-calc-oval', function(req, res, next) {
 			respondObj.rollDiamOut = _rollDiamOut;
 			respondObj.cavityDiamOut = _cavityDiamOut;
 			respondObj.cavityDepthOut = _cavityDepthOut;
+			respondObj.ratioMinOut = _ratioMinOut;
 			respondObj.ratioMinPerOut = _ratioMinPerOut;
+			respondObj.ratioMaxOut = _ratioMaxOut;
 			respondObj.ratioMaxPerOut = _ratioMaxPerOut	
 			respondObj.Ydim01out = _Ydim01out;  
 			respondObj.Ydim02out = _Ydim02out; 
@@ -110,9 +127,10 @@ router.post('/do-calc-oval', function(req, res, next) {
 			console.log("respond Obj");
 			console.log(respondObj);
 			console.log("before query ---");
-			const query = new URLSearchParams(respondObj);
+			//const query = new URLSearchParams(respondObj);
+			const query = createQueryString(respondObj);
 			console.log(query);
-			res.redirect('/calcoval/calc-results?${query}');
+			res.redirect('/calcoval/calc-results?' + query);
 			//res.send(respondObj);  //send the object
 		  };
 		
@@ -141,8 +159,8 @@ router.post('/do-calc-oval', function(req, res, next) {
 			"",
 			0,
 			"",
-			rollDiamOut, cavityDiamOut, cavityDepthOut, ratioMinPerOut,
-			ratioMaxPerOut, Ydim01out, Ydim02out
+			rollDiamOut, cavityDiamOut, cavityDepthOut, ratioMinOut, ratioMinPerOut,
+			ratioMaxOut, ratioMaxPerOut, Ydim01out, Ydim02out
 		);
 	});		
 

@@ -61,18 +61,18 @@
 				<div class="col-lg-6 col-md-6 col-sm-8 col-xs-10 inputDivStyle">
 					<div class="row">
                         <h2>Values you entered</h2>
-                        <h3>Cylinder diameter : {{rollDiam}}</h3>
-                        <h3>X dir dimension : {{cavityDiam}} (diameter if round)</h3>
-                        <h3>Feature depth : {{cavityDepth}}</h3>
+                        <h3 id="rollDiam">Cylinder diameter : {{rollDiam}}</h3>
+                        <h3 id="cavityDiam">X dir dimension : {{cavityDiam}} </h3>
+                        <h3 id="cavityDepth">Feature depth : {{cavityDepth}}</h3>
                         <br/>
                         <h2>Calculated Values</h2>
-                        <h3>X value : {{cavityDiam}} (unchanged)</h3>
+                        <h3 id="cavityDiam2">X value : {{cavityDiam}}</h3>
                         <br/>
-                        <h3>Y min value : {{Ydim01}}</h3>
-                        <h3>Y max value : {{Ydim02}}</h3>
+                        <h3 id="YminVal">Y min value : {{Ydim01}}</h3>
+                        <h3 id="YmaxVal">Y max value : {{Ydim02}}</h3>
                         <br/>
-                        <h3>Y scale min : {{ratioMin}} ({{ratioMinPer}}%)</h3>
-                        <h3>Y scale max : {{ratioMax}} ({{ratioMaxPer}}%)</h3>
+                        <h3 id="YscaleMin">Y scale min : {{ratioMin}} {{ratioMinPer}}</h3>
+                        <h3 id="YscaleMax">Y scale max : {{ratioMax}} {{ratioMaxPer}}</h3>
                         <br/>
                         <br/>
                         <h4>You should change your Y dimensions to fall between these two values. 
@@ -143,7 +143,28 @@
   	    $(document).ready(function () {
 		  //document is ready, so move the incoming data over
           //closeModals();
+			//load the screen data
+			const urlParams = new URLSearchParams(window.location.search);
 
+			$('#rollDiam').append(urlParams.get('rollDiamOut'));
+			$('#cavityDiam').append(urlParams.get('cavityDiamOut'));
+			$('#cavityDiam').append(" (diameter if round)");
+			$('#cavityDepth').append(urlParams.get('cavityDepthOut'));
+			$('#cavityDiam2').append(urlParams.get('cavityDiamOut') + ' (unchanged)');
+			$('#YminVal').append(urlParams.get('Ydim01out'));
+			$('#YmaxVal').append(urlParams.get('Ydim02out'));
+
+			$('#YscaleMin').append(urlParams.get('ratioMinOut'));
+			$('#YscaleMin').append(' (');
+			$('#YscaleMin').append(urlParams.get('ratioMinPerOut'));
+			$('#YscaleMin').append(' %)');
+
+			$('#YscaleMax').append(urlParams.get('ratioMaxOut'));
+			$('#YscaleMax').append(' (');
+			$('#YscaleMax').append(urlParams.get('ratioMaxPerOut'));
+			$('#YscaleMax').append(' %)');
+			$('#').append(urlParams.get(''));
+			$('#').append(urlParams.get(''));
 
     	  //$(document.body).on("click", "#close-about", closeModals() );
 		  $('#close-about').on('click', function(event) {
