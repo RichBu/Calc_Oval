@@ -1,0 +1,20 @@
+version: "3.7"
+networks:
+  main:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/24
+      driver: default
+services:
+  calc-oval:
+    container_name: calc-oval
+    build: 
+      context: .
+      dockerfile: Dockerfile-calc-oval
+    image: richbu/img-calc-oval
+    networks:
+      main:
+        ipv4_address: 172.20.0.11   
+    ports:
+      - "3003:3003"

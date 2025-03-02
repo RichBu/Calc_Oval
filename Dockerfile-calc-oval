@@ -1,4 +1,4 @@
-FROM node:6.9.1
+FROM node:7.0.0
 WORKDIR . ./
 ADD . /
 
@@ -8,6 +8,6 @@ COPY .env ./
 RUN npm install
 
 COPY . .
-EXPOSE 3000
+EXPOSE 3003
 
 CMD ["npm", "start"]
