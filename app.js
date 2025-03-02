@@ -63,24 +63,7 @@ class ipRecStoreType {
 			_action_done
 		  );			
 		  var query = "INSERT INTO ip_log (time_str, ip_addr, ip_query, as_field, country, countryCode, city, region, regionName, zip, timezone, action_done) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )";
-		  connection.query(query, [
-			ipRec.timeStr,
-			ipRec.clientIP,
-			ipRec.queryIP,
-			ipRec.as,
-			ipRec.country,
-			ipRec.countryCode,
-			ipRec.city,
-			ipRec.region,
-			ipRec.regionName,
-			ipRec.zip,
-			ipRec.timezone,
-			ipRec.action_done
-			], function (err, response) {
-			//what to do after the log has been written
-			console.log('wrote to ip local');
-			res.sendStatus(200).end();  
-		});
+
 	} else {
 		const clientIp = requestIp.getClientIp(req); 
 		console.log(clientIp);
@@ -102,23 +85,6 @@ class ipRecStoreType {
 		  );
 		  
 		  var query = "INSERT INTO ip_log (time_str, ip_addr, ip_query, as_field, country, countryCode, city, region, regionName, zip, timezone, action_done) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )";
-		  connection.query(query, [
-			ipRec.timeStr,
-			ipRec.clientIP,
-			ipRec.queryIP,
-			ipRec.as,
-			ipRec.country,
-			ipRec.countryCode,
-			ipRec.city,
-			ipRec.region,
-			ipRec.regionName,
-			ipRec.zip,
-			ipRec.timezone,
-			ipRec.action_done
-			], function (err, response) {
-			//what to do after the log has been written
-			  res.sendStatus(200).end();
-			});
 		})	
 	};
   
@@ -174,7 +140,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 //////////////////////////////////////////////////////////////////////////////
 
 app.use('/', require('./routes/index'));
-app.use('/video', require('./routes/video'));
+//app.use('/video', require('./routes/video'));
 app.use('/calcoval', require('./routes/calcoval'));
 
 //////////////////////////////////////////////////////////////////////////////
@@ -273,4 +239,9 @@ function force_https(req, res, next)
 	next();
 }
 
+// Start listening on PORT
+app.listen(PORT, function() {
+	console.log('app is up, running, and listening on port: ' + PORT);
+  });
+  
 module.exports = app;

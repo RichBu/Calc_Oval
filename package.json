@@ -6,7 +6,11 @@
     "node": "6.9.1"
   },
   "scripts": {
-    "start": "nf start"
+    "start": "nf start",
+    "build": "npm build",
+    "clean": "rm -rf node_modules", 
+    "reinstall": "npm run clean && npm install", 
+    "rebuild": "npm run clean && npm install && npm run build"
   },
   "dependencies": {
     "body-parser": "1.15.1",

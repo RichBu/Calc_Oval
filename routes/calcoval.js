@@ -1,10 +1,11 @@
 let fs      = require('fs')
 let path    = require('path');
 let express = require('express');
+const url = require('url');
 
 let router  = express.Router();
 
-var connection = require('../connection');
+//var connection = require('../connection');
 
 let fileLoc = './public/videos/';
 
@@ -36,7 +37,20 @@ router.get('/', function(req, res, next) {
 	//this is the root route for /calcoval 
 	//it is now thru a post call so display nothing if the user
 	//bookmarks this location
-	});
+	res.render('calc_oval', {
+		base_url: process.env.BASE_URL
+});
+});
+
+
+router.get('/calc-results', function(req, res, next) {
+	//this is the root route for /calcoval 
+	//it is now thru a post call so display nothing if the user
+	//bookmarks this location
+	res.render('calc_results', {
+		base_url: process.env.BASE_URL
+});
+});
 	
 
 router.post('/do-calc-oval', function(req, res, next) {
@@ -68,6 +82,41 @@ router.post('/do-calc-oval', function(req, res, next) {
 		var Ydim02calc = ratio02 * _cavityDiam;
 		var Ydim02out = math.format(Ydim02calc,  {notation: 'fixed', precision: numDec});
 
+
+		/*
+			rollDiam, cavityDiam, cavityDepth, rollDiamOut, cavityDiamOut, cavityDepthOut, ratioMinOut, ratioMinPerOut, ratioMaxOut,
+			ratioMaxPerOut, Ydim01out, Ydim02out
+		*/
+
+		var sendObjBack = function (errCode, errMsg, errLine, errExp, 
+			_rollDiamOut, _cavityDiamOut, _cavityDepthOut, _ratioMinPerOut,
+			_ratioMaxPerOut, _Ydim01out, _Ydim02out ) {
+
+			//writeAuditLog("Device reg", _user_name, _user_email, "code: " + errCode + " = " + errMsg, " ", " ");
+			let respondObj = {};
+			respondObj.errCode = errCode;
+			respondObj.errLine = errLine;
+			respondObj.errMsg = errMsg;
+			respondObj.errExp = errExp;
+
+			respondObj.rollDiamOut = _rollDiamOut;
+			respondObj.cavityDiamOut = _cavityDiamOut;
+			respondObj.cavityDepthOut = _cavityDepthOut;
+			respondObj.ratioMinPerOut = _ratioMinPerOut;
+			respondObj.ratioMaxPerOut = _ratioMaxPerOut	
+			respondObj.Ydim01out = _Ydim01out;  
+			respondObj.Ydim02out = _Ydim02out; 
+	
+			console.log("respond Obj");
+			console.log(respondObj);
+			console.log("before query ---");
+			const query = new URLSearchParams(respondObj);
+			console.log(query);
+			res.redirect('/calcoval/calc-results?${query}');
+			//res.send(respondObj);  //send the object
+		  };
+		
+		
 		//store to the log first
 		let userLogRec = new userActionLogRecStoreType(
 			moment().format("YYYY-MM-DD  HH:mm a"),
@@ -85,33 +134,16 @@ router.post('/do-calc-oval', function(req, res, next) {
 		);
 		
 		var query = "INSERT INTO user_log ( time_str, ip_addr, action_done, rollDiam, dimXdir, cavityDepth, calcXval, calcYmin, calcYmax, calcScaleMin, calcScaleMax) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )";
-		connection.query(query, [
-		  userLogRec.timeStr,
-		  userLogRec.ip_addr,
-		  userLogRec.action_done,
-		  userLogRec.rollDiam,
-		  userLogRec.dimXdir,
-		  userLogRec.cavityDepth,
-		  userLogRec.calcXval,
-		  userLogRec.calcYmin,
-		  userLogRec.calcYmax,
-		  userLogRec.calcScaleMin,
-		  userLogRec.calcScaleMax
-		  ], function (err, response) {
-			  //wrote the action log, so can render the page
-			  res.render('calc_results', 
-			  {
-			  rollDiam: rollDiamOut,
-			  cavityDiam: cavityDiamOut,
-			  cavityDepth: cavityDepthOut,
-			  Ydim01: Ydim01out,
-			  Ydim02: Ydim02out,
-			  ratioMin: ratioMinOut,
-			  ratioMinPer: ratioMinPerOut,
-			  ratioMax: ratioMaxOut,
-			  ratioMaxPer: ratioMaxPerOut
-			  });  
-		  });
+
+		
+		//sends the data back to the front end
+		sendObjBack(0,
+			"",
+			0,
+			"",
+			rollDiamOut, cavityDiamOut, cavityDepthOut, ratioMinPerOut,
+			ratioMaxPerOut, Ydim01out, Ydim02out
+		);
 	});		
 
 module.exports = router;

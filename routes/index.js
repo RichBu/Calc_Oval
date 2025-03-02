@@ -69,7 +69,8 @@ router.get('/', function(req, res, next) {
 	let ip;
 	let clientIP; 
 
-  
+    req.session.logged_in = true;
+
 	if (req.session.logged_in === true) 
 	{
 		//logged in so just write to user db
@@ -84,21 +85,6 @@ router.get('/', function(req, res, next) {
 		);
 		
 		var query = "INSERT INTO user_log (time_str, ip_addr, loginName, password, fullName, action_done) VALUES (?, ?, ?, ?, ?, ? )";
-		connection.query(query, [
-		  userLogRec.timeStr,
-		  userLogRec.clientIP,
-		  userLogRec.loginName,
-		  userLogRec.password,
-		  userLogRec.fullName,
-		  userLogRec.action_done
-		  ], function (err, response) {
-		  //what to do after the log has been written
-		  console.log('wrote to ip local');
-		  //res.sendStatus(200).end();  
-		  res.render('index', {
-			  base_url: process.env.BASE_URL
-			  });
-		  });
 	} else {
 		//not logged in so save the ip address
 		_action_done = "root-not logged in";
@@ -125,28 +111,6 @@ router.get('/', function(req, res, next) {
 				_action_done
 			  );			
 			  var query = "INSERT INTO ip_log (time_str, ip_addr, ip_query, as_field, country, countryCode, city, region, regionName, zip, timezone, action_done) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )";
-			  connection.query(query, [
-				ipRec.timeStr,
-				ipRec.clientIP,
-				ipRec.queryIP,
-				ipRec.as,
-				ipRec.country,
-				ipRec.countryCode,
-				ipRec.city,
-				ipRec.region,
-				ipRec.regionName,
-				ipRec.zip,
-				ipRec.timezone,
-				ipRec.action_done
-				], function (err, response) {
-				//what to do after the log has been written
-				console.log('wrote to ip local');
-
-				//res.sendStatus(200).end();  
-				res.render('index', {
-					base_url: process.env.BASE_URL
-					});
-				});
 		} else {
 			//let ip = req.clientIPaddr;
 			//let clientIP = requestIp.getClientIp(req);
@@ -172,37 +136,17 @@ router.get('/', function(req, res, next) {
 			  );
 			  console.log('before insert query');
 			  var query = "INSERT INTO ip_log (time_str, ip_addr, ip_query, as_field, country, countryCode, city, region, regionName, zip, timezone, action_done) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )";
-			  connection.query(query, [
-				ipRec.timeStr,
-				ipRec.clientIP,
-				ipRec.queryIP,
-				ipRec.as,
-				ipRec.country,
-				ipRec.countryCode,
-				ipRec.city,
-				ipRec.region,
-				ipRec.regionName,
-				ipRec.zip,
-				ipRec.timezone,
-				ipRec.action_done
-				], function (err, response) {
-				//what to do after the log has been written
-					res.render('index', {
-						base_url: process.env.BASE_URL
-					});
-					//res.sendStatus(200).end();
-				});
 			})	
 		};	
 	};
 
 
-	//
+	
 	//	->	Display the index view with the video tag
 	//
-	//res.render('index', {
-	//		base_url: process.env.BASE_URL
-	//});
+	res.render('index', {
+			base_url: process.env.BASE_URL
+	});
 
 });
 
@@ -317,21 +261,6 @@ router.post('/login', function(req, res, next) {
 	);
 
 	var query = "INSERT INTO user_log (time_str, ip_addr, loginName, password, fullName, action_done) VALUES (?, ?, ?, ?, ?, ? )";
-	connection.query(query, [
-	  userLogRec.timeStr,
-	  userLogRec.clientIP,
-	  userLogRec.loginName,
-	  userLogRec.password,
-	  userLogRec.fullName,
-	  userLogRec.action_done
-	  ], function (err, response) {
-	  //what to do after the log has been written
-	  res.json({
-        //logged_in: req.session.logged_in,
-        //user_name: req.session.username,
-        url: outputUrl
-		});
-	  });  //query to write to user log
 });
 
 
@@ -354,22 +283,6 @@ router.post('/ovalcalc', function(req, res, next) {
 	);
 	
 	var query = "INSERT INTO user_log ( time_str, ip_addr, action_done, rollDiam, dimXdir, cavityDepth, calcXval, calcYmin, calcYmax, calcScaleMin, calcScaleMax) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )";
-	connection.query(query, [
-	  userLogRec.timeStr,
-	  userLogRec.ip_addr,
-	  userLogRec.action_done,
-	  userLogRec.rollDiam,
-	  userLogRec.dimXdir,
-	  userLogRec.cavityDepth,
-	  userLogRec.calcXval,
-	  userLogRec.calcYmin,
-	  userLogRec.calcYmax,
-	  userLogRec.calcScaleMin,
-	  userLogRec.calcScaleMax
-	  ], function (err, response) {
-		  //wrote the action log, so can render the page
-		  res.render('calc_oval');
-	  });
 });
 
 module.exports = router;

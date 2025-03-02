@@ -203,8 +203,8 @@
 		  $('#OvalCalcBttn').on('click', function (event) {
 			  event.preventDefault();
 			  console.log("hit the oval calc button")
-			  $("#calc-oval-form").submit();
-			  //window.location.href = '/calcoval';
+			  //$("#calc-oval-form").submit();
+			  window.location.href = '/calcoval';
 		  });
 
     		$(document.body).on("submit", "#login-form", function (event) {
